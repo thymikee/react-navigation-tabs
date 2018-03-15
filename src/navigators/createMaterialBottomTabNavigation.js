@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { BottomNavigation } from 'react-native-paper';
-import createTabNavigator from './createTabNavigator';
+import createTabNavigator from '../utils/createTabNavigator';
 
 class BottomNavigationView extends React.Component {
   _getColor = ({ route }) => {
@@ -14,7 +14,18 @@ class BottomNavigationView extends React.Component {
   };
 
   render() {
-    return <BottomNavigation {...this.props} getColor={this._getColor} />;
+    const { activeTintColor, navigation, ...rest } = this.props;
+
+    return (
+      <BottomNavigation
+        {...rest}
+        navigationState={navigation.state}
+        getColor={this._getColor}
+        theme={
+          activeTintColor ? { colors: { primary: activeTintColor } } : null
+        }
+      />
+    );
   }
 }
 

@@ -6,7 +6,7 @@ import {
   createNavigator,
   createNavigationContainer,
 } from 'react-navigation';
-import SceneView from './SceneView';
+import SceneView from '../SceneView';
 
 export default function createTabNavigator(TabView: React.ComponentType<*>) {
   class NavigationView extends React.Component<*> {
@@ -59,9 +59,9 @@ export default function createTabNavigator(TabView: React.ComponentType<*>) {
     };
 
     render() {
-      const { state } = this.props.navigation;
+      const { descriptors, navigation } = this.props;
+      const { state } = navigation;
       const route = state.routes[state.index];
-      const { descriptors } = this.props;
       const descriptor = descriptors[route.key];
       const options = {
         ...this.props.navigationConfig,
@@ -75,7 +75,7 @@ export default function createTabNavigator(TabView: React.ComponentType<*>) {
           renderIcon={this._renderIcon}
           renderScene={this._renderScene}
           onIndexChange={this._handleIndexChange}
-          navigationState={state}
+          navigation={navigation}
           descriptors={descriptors}
         />
       );

@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Expo from 'expo';
 import { Text } from 'react-native';
-import { MaterialBottomNavigator } from 'react-navigation-tabs';
+import { createMaterialBottomTabNavigation } from 'react-navigation-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
 
 const tabBarIcon = name => ({ tintColor }) => (
@@ -59,11 +59,17 @@ class Whoa extends React.Component {
   }
 }
 
-const App = MaterialBottomNavigator({
-  Home,
-  Test,
-  Hey,
-  Whoa,
-});
+const App = createMaterialBottomTabNavigation(
+  {
+    Home,
+    Test,
+    Hey,
+    Whoa,
+  },
+  {
+    shifting: false,
+    activeTintColor: '#F44336',
+  }
+);
 
 Expo.registerRootComponent(App);
