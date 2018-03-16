@@ -112,11 +112,15 @@ class TabBarBottom extends React.Component<Props> {
 
     const horizontal = this._shouldUseHorizontalTabs();
 
+    const activeOpacity = focused ? 1 : 0;
+    const inactiveOpacity = focused ? 0 : 1;
+
     return (
       <TabBarIcon
         route={route}
-        focused={focused}
         navigation={navigation}
+        activeOpacity={activeOpacity}
+        inactiveOpacity={inactiveOpacity}
         activeTintColor={activeTintColor}
         inactiveTintColor={inactiveTintColor}
         renderIcon={renderIcon}

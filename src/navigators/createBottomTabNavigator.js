@@ -5,13 +5,27 @@ import { View, StyleSheet } from 'react-native';
 import createTabNavigator from '../utils/createTabNavigator';
 import TabBarBottom from '../views/TabBarBottom';
 
+type Props = {
+  onIndexChange: (index: number) => mixed,
+  getLabelText: (props: { route: any }) => string,
+  renderIcon: (props: { route: any, tintColor: string }) => React.Node,
+  renderScene: (props: { route: any }) => React.Node,
+  onTabPress: (props: { route: any }) => React.Node,
+  navigation: any,
+  descriptors: any,
+  activeTintColor: string,
+  tabBarOptions: ?Object,
+  tabBarComponent: React.ComponentType<*>,
+  screenProps?: any,
+};
+
 type State = {
   loaded: number[],
 };
 
-class TabNavigationView extends React.PureComponent<*, State> {
+class TabNavigationView extends React.PureComponent<Props, State> {
   state = {
-    loaded: [this.props.navigationState.index],
+    loaded: [this.props.navigation.state.index],
   };
 
   componentWillReceiveProps(nextProps) {
@@ -29,10 +43,10 @@ class TabNavigationView extends React.PureComponent<*, State> {
   }
 
   _getLabel = ({ route, focused, tintColor }) => {
-    const label = this.props.getLabel;
+    const label = this.props.getLabelText({ route });
 
     if (typeof label === 'function') {
-      return label({ route, focused, tintColor });
+      return label({ focused, tintColor });
     }
 
     return label;
@@ -42,7 +56,7 @@ class TabNavigationView extends React.PureComponent<*, State> {
     const {
       tabBarOptions,
       tabBarComponent: TabBarComponent = TabBarBottom,
-    } = this.props.navigationConfig;
+    } = this.props;
 
     const { descriptors } = this.props;
     const { state } = this.props.navigation;
@@ -105,10 +119,10 @@ class TabNavigationView extends React.PureComponent<*, State> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    overflow: 'hidden',
   },
   pages: {
     flex: 1,
-    overflow: 'hidden',
   },
 });
 

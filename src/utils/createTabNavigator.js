@@ -3,6 +3,7 @@
 import * as React from 'react';
 import {
   TabRouter,
+  NavigationActions,
   createNavigator,
   createNavigationContainer,
 } from 'react-navigation';
@@ -23,7 +24,7 @@ export default function createTabNavigator(TabView: React.ComponentType<*>) {
       );
     };
 
-    _renderIcon = ({ route, focused, tintColor }) => {
+    _renderIcon = ({ route, focused = true, tintColor }) => {
       const { descriptors } = this.props;
       const descriptor = descriptors[route.key];
       const options = descriptor.options;
@@ -53,6 +54,30 @@ export default function createTabNavigator(TabView: React.ComponentType<*>) {
       return route.routeName;
     };
 
+    _handleOnTabPress = ({ route }) => {
+      const { descriptors } = this.props;
+      const descriptor = descriptors[route.key];
+      const { navigation, options } = descriptor;
+
+      if (options.tabBarOnPress) {
+        options.tabBarOnPress({
+          navigation,
+        });
+      } else {
+        const isFocused =
+          this.props.navigate.state.index ===
+          this.props.navigation.state.routes.indexOf(route);
+
+        if (isFocused) {
+          if (route.hasOwnProperty('index') && route.index > 0) {
+            navigation.dispatch(NavigationActions.popToTop({ key: route.key }));
+          } else {
+            // TODO: do something to scroll to top
+          }
+        }
+      }
+    };
+
     _handleIndexChange = index => {
       const { navigation } = this.props;
       navigation.navigate(navigation.state.routes[index].routeName);
@@ -75,6 +100,7 @@ export default function createTabNavigator(TabView: React.ComponentType<*>) {
           renderIcon={this._renderIcon}
           renderScene={this._renderScene}
           onIndexChange={this._handleIndexChange}
+          onTabPress={this._handleOnTabPress}
           navigation={navigation}
           descriptors={descriptors}
         />
