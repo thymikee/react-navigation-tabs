@@ -12,7 +12,7 @@ type Props = {
   onTabPress: (props: { route: any }) => React.Node,
   navigation: any,
   descriptors: any,
-  activeTintColor: string,
+  activeTintColor?: string,
 };
 
 class BottomNavigationView extends React.Component<Props> {
@@ -25,6 +25,7 @@ class BottomNavigationView extends React.Component<Props> {
   };
 
   render() {
+    // eslint-disable-next-line no-unused-vars
     const { activeTintColor, navigation, descriptors, ...rest } = this.props;
 
     return (
@@ -32,8 +33,8 @@ class BottomNavigationView extends React.Component<Props> {
         {...rest}
         navigationState={navigation.state}
         getColor={this._getColor}
-        {/* $FlowFixMe */}
         theme={
+          /* $FlowFixMe */
           activeTintColor ? { colors: { primary: activeTintColor } } : null
         }
       />

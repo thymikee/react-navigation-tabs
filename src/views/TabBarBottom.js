@@ -17,7 +17,7 @@ type Props = {
   navigation: any,
   descriptors: any,
   onIndexChange: any,
-  getOnPress: any,
+  onTabPress: any,
   activeTintColor: any,
   inactiveTintColor: any,
   activeBackgroundColor: any,
@@ -69,7 +69,7 @@ class TabBarBottom extends React.Component<Props> {
     const options = descriptor.options;
 
     const tintColor = focused ? activeTintColor : inactiveTintColor;
-    const label = this.props.getLabel({ route, focused, tintColor });
+    const label = this.props.getLabelText({ route });
 
     if (typeof label === 'string') {
       return (
@@ -213,7 +213,6 @@ class TabBarBottom extends React.Component<Props> {
     const {
       navigation,
       descriptors,
-      getOnPress,
       activeBackgroundColor,
       inactiveBackgroundColor,
       style,

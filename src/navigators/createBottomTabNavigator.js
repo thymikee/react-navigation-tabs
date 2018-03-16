@@ -14,7 +14,6 @@ type Props = {
   navigation: any,
   descriptors: any,
   activeTintColor: string,
-  tabBarOptions: ?Object,
   tabBarComponent: React.ComponentType<*>,
   screenProps?: any,
 };
@@ -53,10 +52,7 @@ class TabNavigationView extends React.PureComponent<Props, State> {
   };
 
   _renderTabBar = () => {
-    const {
-      tabBarOptions,
-      tabBarComponent: TabBarComponent = TabBarBottom,
-    } = this.props;
+    const { tabBarComponent: TabBarComponent = TabBarBottom } = this.props;
 
     const { descriptors } = this.props;
     const { state } = this.props.navigation;
